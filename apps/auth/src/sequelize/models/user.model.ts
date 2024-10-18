@@ -1,9 +1,24 @@
-import { Column, Model, PrimaryKey, Table } from 'sequelize-typescript';
+import {
+  AutoIncrement,
+  BeforeUpdate,
+  Column,
+  Model,
+  PrimaryKey,
+  Table,
+} from 'sequelize-typescript';
 import { User as IUser } from '@app/common';
 
-@Table
+@Table({
+  underscored: true,
+  modelName: 'user',
+  freezeTableName: true,
+  timestamps: true,
+  createdAt: 'created_at',
+  updatedAt: 'updated_at',
+})
 export class User extends Model implements IUser {
   @PrimaryKey
+  @AutoIncrement
   @Column
   id: number;
 
@@ -24,4 +39,15 @@ export class User extends Model implements IUser {
 
   @Column
   facebookUri?: string;
+
+  @Column
+  createdAt: Date;
+
+  @Column
+  updatedAt: Date;
+
+  @BeforeUpdate
+  static setUpdatedAt(user: User) {
+    user.updatedAt = new Date();
+  }
 }

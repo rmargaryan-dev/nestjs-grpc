@@ -11,13 +11,13 @@ export class UserRepository {
   ) {}
 
   public async create(createUserDto: CreateUserDto): Promise<User> {
-    return this.userModel.create({ createUserDto });
+    return this.userModel.create({ ...createUserDto });
   }
 
   public async update(updateUserDto: UpdateUserDto): Promise<User> {
     const userToUpdate = await this.findById(updateUserDto.id);
 
-    userToUpdate.set(updateUserDto);
+    userToUpdate.set({ ...updateUserDto.socialMedia });
     await userToUpdate.save();
 
     return userToUpdate;

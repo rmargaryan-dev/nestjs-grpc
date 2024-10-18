@@ -17,7 +17,7 @@ message PaginationDto {
 }
 
 message UpdateUserDto {
-    string id = 1;
+    int32 id = 1;
     SocialMedia socialMedia = 2;
 }
 

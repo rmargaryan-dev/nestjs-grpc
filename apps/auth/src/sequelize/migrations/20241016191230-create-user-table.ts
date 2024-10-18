@@ -1,5 +1,5 @@
 // src/sequelize/seeders/{timestamp}-demo-users.ts
-import { QueryInterface, DataTypes } from 'sequelize';
+import sequelize, { QueryInterface, DataTypes } from 'sequelize';
 
 export = {
   async up(queryInterface: QueryInterface) {
@@ -28,13 +28,23 @@ export = {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
       },
-      twitterUri: {
+      twitter_uri: {
         type: DataTypes.STRING,
         allowNull: true,
       },
-      facebookUri: {
+      facebook_uri: {
         type: DataTypes.STRING,
         allowNull: true,
+      },
+      created_at: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: sequelize.NOW,
+      },
+      updated_at: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: sequelize.NOW,
       },
     });
   },
