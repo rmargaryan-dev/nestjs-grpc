@@ -1,12 +1,28 @@
 import { Injectable } from '@nestjs/common';
 import { UserRepository } from './user.repository';
-import { CreateUserDto, UpdateUserDto, User, Users } from '@app/common';
+import {
+  ConflictRpcException,
+  CreateUserDto,
+  UpdateUserDto,
+  User,
+  Users,
+} from '@app/common';
 
 @Injectable()
 export class UserService {
   constructor(private readonly userRepository: UserRepository) {}
 
   public async createUser(createUserDto: CreateUserDto): Promise<User> {
+    const { username } = createUserDto;
+
+    const possibleTakenUsername = await this.userRepository.findOneBy({
+      username,
+    });
+
+    if (possibleTakenUsername) {
+      throw new ConflictRpcException('Username already taken');
+    }
+
     return this.userRepository.create(createUserDto);
   }
 

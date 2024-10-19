@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { User } from '../sequelize/models/user.model';
 import { CreateUserDto, UpdateUserDto } from '@app/common';
+import { FindOptions } from 'sequelize';
 
 @Injectable()
 export class UserRepository {
@@ -29,6 +30,10 @@ export class UserRepository {
 
   public async findById(id: number): Promise<User> {
     return this.userModel.findByPk(id);
+  }
+
+  public async findOneBy(criteria: Partial<User>): Promise<User | null> {
+    return this.userModel.findOne({ where: criteria });
   }
 
   public async remove(id: number): Promise<User> {
